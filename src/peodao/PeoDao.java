@@ -12,24 +12,24 @@ import peo.DBUtil;
 import peo.Peo;
 
 public class PeoDao {
-    private Connection conn;//Á¬½Ó
-    private PreparedStatement pstmt;//Ä£°å
-    private ResultSet rs;//½á¹û
+    private Connection conn;//è¿æ¥
+    private PreparedStatement pstmt;//æ¨¡æ¿
+    private ResultSet rs;//ç»“æœ
     
-  //²é¿´Ñ§ÉúÁĞ±í£¨1ËùÓĞ£©
+  //æŸ¥çœ‹å­¦ç”Ÿåˆ—è¡¨ï¼ˆ1æ‰€æœ‰ï¼‰
     public List<Peo> list() throws SQLException {
-           List<Peo> list=new ArrayList<Peo>();//ÊÇÏßĞÔÁĞ±í£¬ArrayListÊÇ
+           List<Peo> list=new ArrayList<Peo>();//æ˜¯çº¿æ€§åˆ—è¡¨ï¼ŒArrayListæ˜¯
        
            String sql="select * from yiqing";
         
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
-    //pstmt.executeUpdate();//ÓÃÓÚÔöÉ¾¸Ä
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+    //pstmt.executeUpdate();//ç”¨äºå¢åˆ æ”¹
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 Peo peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
@@ -52,7 +52,7 @@ public class PeoDao {
         return list;
     }
     
-  //Ìí¼ÓÑ§ÉúĞÅÏ¢
+  //æ·»åŠ å­¦ç”Ÿä¿¡æ¯
     public boolean add(Peo peo) {
            String sql="insert into yiqing(id,name,sex,college,address,suspect,confirm,contact,time) values(?,?,?,?,?,?,?,?,?)";
         try {
@@ -84,9 +84,9 @@ public class PeoDao {
 		}
         return true;
     }
-    //ĞŞ¸ÄÑ§ÉúĞÅÏ¢
+    //ä¿®æ”¹å­¦ç”Ÿä¿¡æ¯
     public boolean update(Peo peo) {
-           String sql="update yiqing set id=?,name=? sex=?,college=?,address=?,suspect=?,confirm=?,contact=?,time=?";
+           String sql="update yiqing set name=?,sex=?,college=?,address=?,suspect=?,confirm=?,contact=?,time=? where id=?";
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
@@ -116,7 +116,7 @@ public class PeoDao {
 		}
         return true;
        }
-  //É¾³ıÑ§ÉúĞÅÏ¢
+  //åˆ é™¤å­¦ç”Ÿä¿¡æ¯
     public boolean del(String id) throws SQLException {
            String sql="delete from yiqing where id=?";
         try {
@@ -133,7 +133,7 @@ public class PeoDao {
         return true;
        }
     
-	//²é¿´ÁĞ±í   °´Ñ§ºÅ   1
+	//æŸ¥çœ‹åˆ—è¡¨   æŒ‰å­¦å·   1
     public Peo findSomeone(String id) throws SQLException {
            Peo peo=null;
            String sql="select * from yiqing where id=?";
@@ -141,12 +141,12 @@ public class PeoDao {
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
-//pstmt.executeUpdate();//ÓÃÓÚÔöÉ¾¸Ä
+//pstmt.executeUpdate();//ç”¨äºå¢åˆ æ”¹
             pstmt.setString(1,id);
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
@@ -166,26 +166,26 @@ public class PeoDao {
     
     
    /* public void findday(){
-    	System.out.println("ÊäÈëÊ±¼ä£º");
+    	System.out.println("è¾“å…¥æ—¶é—´ï¼š");
     	Scanner s=new Scanner(System.in);
     	String date = s.next();
     	//showMessage(finddate(date));
-    	System.out.println("ÔÚ"+date+"²ÎÓëÍ³¼ÆµÄÈËÊı\n");
+    	System.out.println("åœ¨"+date+"å‚ä¸ç»Ÿè®¡çš„äººæ•°\n");
     	//showNum(selectDate(date));
     }*/ 
     
-  //¸Õ¸ÄµÄ°´Ê±¼ä²éÑ¯
+  //åˆšæ”¹çš„æŒ‰æ—¶é—´æŸ¥è¯¢
     public List<Peo> list1(String time) throws SQLException {
-           List<Peo> list1=new ArrayList<Peo>();//ÊÇÏßĞÔÁĞ±í£¬ArrayListÊÇ
+           List<Peo> list1=new ArrayList<Peo>();//æ˜¯çº¿æ€§åˆ—è¡¨ï¼ŒArrayListæ˜¯
            String sql="select * from yiqing where time=?";
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
             pstmt.setString(1,time);
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 Peo peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
@@ -206,8 +206,8 @@ public class PeoDao {
         }
         return list1;
     }
-    //°´Ê±¼ä
-  //²é¿´ÁĞ±í  2
+    //æŒ‰æ—¶é—´
+  //æŸ¥çœ‹åˆ—è¡¨  2
     public Peo finddate(String time) throws SQLException {
            Peo peo=null;
            String sql="select * from yiqing where time=?";
@@ -215,10 +215,10 @@ public class PeoDao {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
             pstmt.setString(1,time);
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
@@ -236,7 +236,7 @@ public class PeoDao {
         return peo;
     }
 
-  //²é¿´ÁĞ±í   °´Ñ§Ôº  3
+  //æŸ¥çœ‹åˆ—è¡¨   æŒ‰å­¦é™¢  3
     public Peo findcollege(String college) throws SQLException {
            Peo peo=null;
            String sql="select * from yiqing where college=?";
@@ -244,12 +244,12 @@ public class PeoDao {
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
-//pstmt.executeUpdate();//ÓÃÓÚÔöÉ¾¸Ä
+//pstmt.executeUpdate();//ç”¨äºå¢åˆ æ”¹
             pstmt.setString(1,college);
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
@@ -267,7 +267,7 @@ public class PeoDao {
         return peo;
     }
     
-    //²é¿´ÁĞ±í   °´ĞÕÃû  4
+    //æŸ¥çœ‹åˆ—è¡¨   æŒ‰å§“å  4
     public Peo findname(String name) throws SQLException {
            Peo peo=null;
            String sql="select * from yiqing where name=?";
@@ -275,12 +275,12 @@ public class PeoDao {
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
-//pstmt.executeUpdate();//ÓÃÓÚÔöÉ¾¸Ä
+//pstmt.executeUpdate();//ç”¨äºå¢åˆ æ”¹
             pstmt.setString(1,name);
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
@@ -298,7 +298,7 @@ public class PeoDao {
         return peo;
     }
     
-    //²é¿´ÁĞ±í   ÊÇ·ñ¸ĞÈ¾   5
+    //æŸ¥çœ‹åˆ—è¡¨   æ˜¯å¦æ„ŸæŸ“   5
     public Peo findconfirm(String confirm) throws SQLException {
            Peo peo=null;
            String sql="select * from yiqing where confirm=?";
@@ -306,12 +306,12 @@ public class PeoDao {
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
-//pstmt.executeUpdate();//ÓÃÓÚÔöÉ¾¸Ä
+//pstmt.executeUpdate();//ç”¨äºå¢åˆ æ”¹
             pstmt.setString(1,confirm);
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
@@ -329,7 +329,7 @@ public class PeoDao {
         return peo;
     }
     
-    //²é¿´ÁĞ±í   ÒÉËÆ  6
+    //æŸ¥çœ‹åˆ—è¡¨   ç–‘ä¼¼  6
     public Peo findsuspect(String suspect) throws SQLException {
            Peo peo=null;
            String sql="select * from yiqing where suspect=?";
@@ -337,12 +337,12 @@ public class PeoDao {
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
-//pstmt.executeUpdate();//ÓÃÓÚÔöÉ¾¸Ä
+//pstmt.executeUpdate();//ç”¨äºå¢åˆ æ”¹
             pstmt.setString(1,suspect);
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
@@ -360,7 +360,7 @@ public class PeoDao {
         return peo;
     }
     
-    //²é¿´ÁĞ±í   ÊÇ·ñ½Ó´¥
+    //æŸ¥çœ‹åˆ—è¡¨   æ˜¯å¦æ¥è§¦
     public Peo findcontact(String contact) throws SQLException {
            Peo peo=null;
            String sql="select * from yiqing where contact=?";
@@ -368,12 +368,12 @@ public class PeoDao {
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
-//pstmt.executeUpdate();//ÓÃÓÚÔöÉ¾¸Ä
+//pstmt.executeUpdate();//ç”¨äºå¢åˆ æ”¹
             pstmt.setString(1,contact);
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
@@ -390,7 +390,7 @@ public class PeoDao {
 		conn.close(); 
         return peo;
     }
-  //²é¿´ÁĞ±í   °´Ñ§Ôº  3
+  //æŸ¥çœ‹åˆ—è¡¨   æŒ‰å­¦é™¢  3
     public Peo findaddress(String address) throws SQLException {
            Peo peo=null;
            String sql="select * from yiqing where address=?";
@@ -398,12 +398,12 @@ public class PeoDao {
         try {
             conn=DBUtil.getConn();
             pstmt=conn.prepareStatement(sql);
-//pstmt.executeUpdate();//ÓÃÓÚÔöÉ¾¸Ä
+//pstmt.executeUpdate();//ç”¨äºå¢åˆ æ”¹
             pstmt.setString(1,address);
-            rs=pstmt.executeQuery();//ÓÃÓÚ²éÑ¯
+            rs=pstmt.executeQuery();//ç”¨äºæŸ¥è¯¢
             while (rs.next()) {
                 peo=new Peo();
-                peo.setId(rs.getString("id"));//È¡½á¹û¼¯ÀïÃæÑ§ºÅÕâÒ»ÁĞµÄÖµ¸³¸ø
+                peo.setId(rs.getString("id"));//å–ç»“æœé›†é‡Œé¢å­¦å·è¿™ä¸€åˆ—çš„å€¼èµ‹ç»™
                 peo.setName(rs.getString("name"));
                 peo.setSex(rs.getString("sex"));
                 peo.setCollege(rs.getString("college"));
